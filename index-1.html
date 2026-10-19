@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ps">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123c69">
+<title>Nexora — زده کړه، هره ورځ</title>
+<style>
+:root{--navy:#123c69;--blue:#2463eb;--mint:#d9f7ec;--paper:#f5f7fb;--ink:#172033;--muted:#667085;--card:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans Arabic",sans-serif;line-height:1.6}
+header{background:linear-gradient(135deg,#123c69,#2463eb);color:white;padding:24px 18px 28px;border-radius:0 0 24px 24px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-weight:900;font-size:1.5rem;letter-spacing:.4px}.tag{font-size:.9rem;opacity:.9}
+button,select{font:inherit;border:0;border-radius:12px;padding:10px 13px;cursor:pointer}
+header button{background:white;color:var(--navy);font-weight:700}.wrap{max-width:900px;margin:auto;padding:16px}
+.hero h1{font-size:clamp(1.5rem,6vw,2.35rem);line-height:1.25;margin:24px 0 8px}.hero p{margin:0;opacity:.92}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}.stat{background:#ffffff1c;border:1px solid #ffffff35;border-radius:14px;padding:10px;text-align:center}.stat strong{display:block;font-size:1.25rem}
+nav{display:flex;gap:8px;overflow:auto;padding:14px 0 8px}nav button{white-space:nowrap;background:#e7ecf5;color:#27364e}nav button.active{background:var(--navy);color:white}
+section{display:none}section.active{display:block}.card{background:var(--card);border-radius:18px;padding:17px;margin:12px 0;box-shadow:0 5px 20px #13294b0b;border:1px solid #e9edf4}
+h2{margin:4px 0 12px;font-size:1.3rem}h3{margin:4px 0 8px}.muted{color:var(--muted)}.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.lesson{border:1px solid #e5eaf2;border-radius:14px;padding:13px;margin:10px 0}.lesson small{color:var(--muted)}.pill{display:inline-block;border-radius:99px;padding:3px 9px;background:var(--mint);color:#17664e;font-size:.8rem;font-weight:700}
+.primary{background:var(--blue);color:white;font-weight:750}.secondary{background:#e9eef8;color:var(--navy);font-weight:700}.wide{width:100%;margin-top:10px}.progress{height:10px;background:#e8edf5;border-radius:20px;overflow:hidden}.progress div{height:100%;background:#20a779;width:0%}
+input[type=text],textarea,select{width:100%;border:1px solid #d7deea;background:white;padding:12px;margin:6px 0 12px;color:var(--ink)}textarea{min-height:90px;resize:vertical}.choice{display:block;border:1px solid #e2e7f0;padding:10px;border-radius:12px;margin:8px 0}.choice input{margin-inline-end:8px}
+footer{text-align:center;color:var(--muted);padding:24px 10px;font-size:.88rem}
+[dir=rtl] .top{flex-direction:row}[dir=rtl] nav{direction:rtl}
+@media(min-width:700px){header{padding:30px max(24px,calc((100vw - 860px)/2))}.wrap{padding-top:22px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><div><div class="brand">✦ Nexora</div><div class="tag" id="tagline">زده کړه، هره ورځ</div></div><button id="langBtn" onclick="toggleLang()">English</button></div>
+ <div class="hero"><h1 id="welcome">خپل راتلونکی په زده کړه جوړ کړه</h1><p id="intro">وړیا درسونه، کوچنۍ ازموینې او ستا د پرمختګ خوندي ثبت.</p></div>
+ <div class="stats"><div class="stat"><strong id="points">0</strong><span id="pointsLabel">نمرې</span></div><div class="stat"><strong id="done">0/30</strong><span id="doneLabel">بشپړ درسونه</span></div><div class="stat"><strong id="streak">0</strong><span id="streakLabel">د زده کړې ورځې</span></div></div>
+</header>
+<div class="wrap">
+<nav>
+<button class="active" data-tab="home" onclick="showTab('home',this)" id="navHome">کور</button>
+<button data-tab="course" onclick="showTab('course',this)" id="navCourse">د انګلیسي کورس</button>
+<button data-tab="quiz" onclick="showTab('quiz',this)" id="navQuiz">ازموینه</button>
+<button data-tab="progress" onclick="showTab('progress',this)" id="navProgress">زما پرمختګ</button>
+</nav>
+<section id="home" class="active">
+ <div class="card"><h2 id="startTitle">له دې ځایه پیل کړه</h2><p id="startText">هره ورځ یو درس ولوله، تمرین وکړه او بیا لنډه ازموینه ورکړه.</p><div class="progress"><div id="bar"></div></div><p class="muted" id="progressText">0٪ بشپړ شوی</p><button class="primary wide" onclick="showTab('course',document.querySelector('[data-tab=course]'))" id="startBtn">لومړي درس ته لاړ شه</button></div>
+ <div class="course-grid">
+ <div class="card"><h3>📘 <span id="englishTitle">انګلیسي</span></h3><p class="muted" id="englishDesc">د ورځني ژوند لپاره ۳۰ تدریجي درسونه.</p></div>
+ <div class="card"><h3>🧠 <span id="practiceTitle">تمرین</span></h3><p class="muted" id="practiceDesc">د زده کړې د پیاوړتیا لپاره لنډې پوښتنې.</p></div>
+ <div class="card"><h3>💾 <span id="saveTitle">خوندي پرمختګ</span></h3><p class="muted" id="saveDesc">ستاسې پرمختګ په همدې وسیله کې خوندي کېږي.</p></div>
+ </div>
+</section>
+<section id="course">
+ <div class="card"><h2 id="courseHeading">د انګلیسي بشپړ پیلنی کورس</h2><p class="muted" id="courseSub">۳۰ درسونه • له بنسټ څخه تر ورځنیو خبرو</p><div id="lessonList"></div></div>
+ <div class="card" id="lessonDetail"><h2 id="lessonPrompt">د پیل لپاره یو درس وټاکه</h2><p id="lessonBody">د هر درس د لیدلو لپاره د «درس پرانیستل» تڼۍ ووهه.</p><div id="lessonExample"></div><button class="primary wide" id="completeBtn" onclick="completeLesson()" hidden>درس مې زده کړ ✓</button></div>
+</section>
+<section id="quiz">
+ <div class="card"><h2 id="quizHeading">لنډه ازموینه</h2><p id="quizIntro">سم ځواب وټاکه. هر سم ځواب ۱۰ نمرې لري.</p><div id="quizArea"></div><button class="primary wide" onclick="checkQuiz()" id="checkBtn">ځوابونه وګوره</button><p id="quizResult" aria-live="polite"></p></div>
+</section>
+<section id="progress">
+ <div class="card"><h2 id="progressHeading">زما پرمختګ</h2><p id="progressSummary">ستا زده کړه په دې وسیله کې ثبتېږي.</p><div class="progress"><div id="bar2"></div></div><p id="detailProgress"></p><button class="secondary" onclick="exportProgress()" id="exportBtn">زما پرمختګ ډاونلوډ کړه</button> <button class="secondary" onclick="resetProgress()" id="resetBtn">پرمختګ له سره پیل کړه</button></div>
+ <div class="card"><h3 id="profileHeading">زده کوونکی</h3><label id="nameLabel" for="learnerName">ستا نوم (اختیاري)</label><input id="learnerName" type="text" maxlength="50" placeholder="نوم ولیکه" onchange="saveName()"><p class="muted" id="localNote">یادونه: معلومات یوازې په همدې براوزر/وسیله کې خوندي کېږي. د براوزر معلومات پاکول یې له منځه وړلی شي.</p></div>
+</section>
+</div>
+<footer>✦ Nexora — <span id="footerText">هره ورځ یو کوچنی ګام.</span></footer>
+<script>
+const lessons=[
+["سلام او پېژندنه","Hello! = سلام!","My name is Ali. = زما نوم علي دی.","Hello! My name is Sara."],
+["د الفبا لومړۍ برخه","A, B, C, D, E","F, G, H, I, J","A is for apple."],
+["د الفبا دویمه برخه","K, L, M, N, O","P, Q, R, S, T, U, V, W, X, Y, Z","I can read the alphabet."],
+["شمېرې ۱ تر ۱۰","One, two, three, four, five","Six, seven, eight, nine, ten","I have two books."],
+["ورځنۍ سلامشورې","Good morning = سهار مو پخیر","Good evening = ماښام مو پخیر","How are you? = څنګه یې؟"],
+["ضمیرونه","I = زه; You = ته/تاسې","He = هغه (نارینه); She = هغه (ښځینه)","They are friends."],
+["د فعل be","I am; You are","He is; She is; We are; They are","I am happy."],
+["کورنۍ","Mother = مور; Father = پلار","Brother = ورور; Sister = خور","This is my family."],
+["رنګونه","Red = سور; Blue = آبي","Green = شین; Black = تور; White = سپین","The sky is blue."],
+["ورځې","Monday, Tuesday, Wednesday","Thursday, Friday, Saturday, Sunday","Today is Monday."],
+["میاشتې","January, February, March, April","May, June, July, August","My birthday is in May."],
+["د ځان په اړه","I am from Afghanistan.","I live in France. = زه په فرانسه کې اوسېږم.","I am a student."],
+["عام فعلونه","Go = تلل; Come = راتلل","Eat = خوړل; Drink = څښل; Read = لوستل","I read every day."],
+["اوسنی ساده زمان","I work. = زه کار کوم.","She works. = هغه کار کوي.","We study English."],
+["منفي جملې","I do not know. = زه نه پوهېږم.","I don't like tea.","He does not work here."],
+["پوښتنې","What is your name?","Where are you from?","How much is it?"],
+["د کور شیان","Door = دروازه; Window = کړکۍ","Chair = څوکۍ; Table = مېز","The book is on the table."],
+["خواړه او څښاک","Water = اوبه; Bread = ډوډۍ","Rice = وریجې; Apple = مڼه","I would like water, please."],
+["په بازار کې","How much does this cost?","I would like this one.","Can I pay by card?"],
+["لار پوښتل","Where is the station?","Turn left = چپ لوري ته وګرځه","Go straight = نېغ لاړ شه"],
+["وخت","What time is it?","It is nine o'clock.","The meeting is at two."],
+["اوسنی روان زمان","I am learning English.","She is cooking.","They are playing."],
+["تېر ساده زمان","I worked yesterday.","I went to school.","We watched a film."],
+["راتلونکی","I will call you.","I am going to study.","Tomorrow will be better."],
+["صفتونه","Big = لوی; Small = کوچنی","Fast = چټک; Slow = ورو","This is a beautiful day."],
+["د کار خبرې","I am looking for a job.","I have experience in customer service.","Could you send me the details?"],
+["برېښنالیک","Dear Sam, = ګرانه سام،","Thank you for your message.","Best regards, = په درنښت،"],
+["انلاین خوندیتوب","Use a strong, unique password.","Never share verification codes.","Check links before opening them."],
+["د خبرو تمرین","Could you repeat that, please?","I don't understand yet.","Could you speak more slowly?"],
+["وروستۍ بیاکتنه","Introduce yourself in three sentences.","Ask two questions in English.","Practice a little every day."]
+];
+const quizzes=[
+{q:"What does “Hello” mean?",o:["سلام","مننه","خدای پامان"],a:0},
+{q:"Choose the correct sentence.",o:["She are happy.","She is happy.","She am happy."],a:1},
+{q:"“Water” په پښتو څه معنا لري؟",o:["ډوډۍ","اوبه","کتاب"],a:1},
+{q:"Choose the past tense of “go”.",o:["goed","going","went"],a:2},
+{q:"Which is a polite request?",o:["Give me now!","Could you help me, please?","You help."],a:1}
+];
+let state={completed:[],points:0,streak:0,lastDay:"",name:"",language:"ps"};
+try{const saved=JSON.parse(localStorage.getItem("nexora-v1")||"null");if(saved)state={...state,...saved}}catch(e){}
+let currentLesson=-1;
+const translations={
+en:{tagline:"Learn something every day",welcome:"Build your future through learning",intro:"Free lessons, quick quizzes, and saved progress.",pointsLabel:"Points",doneLabel:"Lessons done",streakLabel:"Study days",navHome:"Home",navCourse:"English course",navQuiz:"Quiz",navProgress:"My progress",startTitle:"Start here",startText:"Study one lesson a day, practice, then take a quick quiz.",progressText:"completed",startBtn:"Go to the first lesson",englishTitle:"English",englishDesc:"30 gradual lessons for everyday life.",practiceTitle:"Practice",practiceDesc:"Short questions to strengthen learning.",saveTitle:"Saved progress",saveDesc:"Your progress is stored on this device.",courseHeading:"Complete beginner English course",courseSub:"30 lessons • From basics to everyday conversation",lessonPrompt:"Choose a lesson to begin",lessonBody:"Tap “Open lesson” to see any lesson.",quizHeading:"Quick quiz",quizIntro:"Choose the correct answer. Each correct answer earns 10 points.",checkBtn:"Check answers",progressHeading:"My progress",progressSummary:"Your learning is saved on this device.",exportBtn:"Download my progress",resetBtn:"Reset progress",profileHeading:"Learner",nameLabel:"Your name (optional)",localNote:"Note: information is saved only in this browser/device. Clearing browser data may erase it.",footerText:"One small step every day.",open:"Open lesson",done:"Completed ✓",mark:"I learned this lesson ✓",lesson:"Lesson",correct:"Correct answers",of:"of",points:"points",allDone:"You completed all 30 lessons!",namePlaceholder:"Enter your name"},
+ps:{tagline:"زده کړه، هره ورځ",welcome:"خپل راتلونکی په زده کړه جوړ کړه",intro:"وړیا درسونه، کوچنۍ ازموینې او ستا د پرمختګ خوندي ثبت.",pointsLabel:"نمرې",doneLabel:"بشپړ درسونه",streakLabel:"د زده کړې ورځې",navHome:"کور",navCourse:"د انګلیسي کورس",navQuiz:"ازموینه",navProgress:"زما پرمختګ",startTitle:"له دې ځایه پیل کړه",startText:"هره ورځ یو درس ولوله، تمرین وکړه او بیا لنډه ازموینه ورکړه.",progressText:"بشپړ شوی",startBtn:"لومړي درس ته لاړ شه",englishTitle:"انګلیسي",englishDesc:"د ورځني ژوند لپاره ۳۰ تدریجي درسونه.",practiceTitle:"تمرین",practiceDesc:"د زده کړې د پیاوړتیا لپاره لنډې پوښتنې.",saveTitle:"خوندي پرمختګ",saveDesc:"ستاسې پرمختګ په همدې وسیله کې خوندي کېږي.",courseHeading:"د انګلیسي بشپړ پیلنی کورس",courseSub:"۳۰ درسونه • له بنسټ څخه تر ورځنیو خبرو",lessonPrompt:"د پیل لپاره یو درس وټاکه",lessonBody:"د هر درس د لیدلو لپاره د «درس پرانیستل» تڼۍ ووهه.",quizHeading:"لنډه ازموینه",quizIntro:"سم ځواب وټاکه. هر سم ځواب ۱۰ نمرې لري.",checkBtn:"ځوابونه وګوره",progressHeading:"زما پرمختګ",progressSummary:"ستا زده کړه په دې وسیله کې ثبتېږي.",exportBtn:"زما پرمختګ ډاونلوډ کړه",resetBtn:"پرمختګ له سره پیل کړه",profileHeading:"زده کوونکی",nameLabel:"ستا نوم (اختیاري)",localNote:"یادونه: معلومات یوازې په همدې براوزر/وسیله کې خوندي کېږي. د براوزر معلومات پاکول یې له منځه وړلی شي.",footerText:"هره ورځ یو کوچنی ګام.",open:"درس پرانیستل",done:"بشپړ شوی ✓",mark:"درس مې زده کړ ✓",lesson:"درس",correct:"سم ځوابونه",of:"له",points:"نمرې",allDone:"ټول ۳۰ درسونه دې بشپړ کړل!",namePlaceholder:"نوم ولیکه"}
+};
+function t(k){return translations[state.language][k]||translations.ps[k]||k}
+function save(){try{localStorage.setItem("nexora-v1",JSON.stringify(state))}catch(e){};renderStats()}
+function renderStats(){document.getElementById("points").textContent=state.points;document.getElementById("done").textContent=state.completed.length+"/30";document.getElementById("streak").textContent=state.streak;let pct=Math.round(state.completed.length/30*100);document.getElementById("bar").style.width=pct+"%";document.getElementById("bar2").style.width=pct+"%";document.getElementById("progressText").textContent=pct+"% "+t("progressText");document.getElementById("detailProgress").textContent=state.completed.length+" / 30 — "+pct+"%";document.getElementById("progressSummary").textContent=state.name?state.name+"، "+t("progressSummary"):t("progressSummary")}
+function showTab(id,btn){document.querySelectorAll("section").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b===btn));if(id==="course")renderLessons();if(id==="quiz")renderQuiz();window.scrollTo({top:0,behavior:"smooth"})}
+function renderLessons(){const box=document.getElementById("lessonList");box.innerHTML="";lessons.forEach((l,i)=>{let d=document.createElement("div");d.className="lesson";let title=state.language==="en"?l[0]:l[0];d.innerHTML=`<div><span class="pill">${state.completed.includes(i)?t("done"):t("lesson")+" "+(i+1)}</span></div><h3>${title}</h3><small>${l[1]}</small><button class="secondary wide" onclick="openLesson(${i})">${t("open")}</button>`;box.appendChild(d)})}
+function openLesson(i){currentLesson=i;let l=lessons[i];document.getElementById("lessonPrompt").textContent=(state.language==="en"?"Lesson ":"درس ")+(i+1)+": "+l[0];document.getElementById("lessonBody").textContent=l[1]+"\n"+l[2];document.getElementById("lessonExample").textContent="Example: "+l[3];let b=document.getElementById("completeBtn");b.hidden=false;b.textContent=state.completed.includes(i)?t("done"):t("mark");document.getElementById("lessonDetail").scrollIntoView({behavior:"smooth",block:"start"})}
+function completeLesson(){if(currentLesson<0)return;if(!state.completed.includes(currentLesson)){state.completed.push(currentLesson);state.points+=5;const today=new Date().toISOString().slice(0,10);if(state.lastDay!==today){state.streak+=1;state.lastDay=today}save();renderLessons()}document.getElementById("completeBtn").textContent=t("done");}
+function renderQuiz(){const box=document.getElementById("quizArea");box.innerHTML="";quizzes.forEach((q,i)=>{let d=document.createElement("div");d.className="lesson";d.innerHTML=`<strong>${i+1}. ${q.q}</strong>`+q.o.map((o,j)=>`<label class="choice"><input type="radio" name="q${i}" value="${j}">${o}</label>`).join("");box.appendChild(d)});document.getElementById("quizResult").textContent=""}
+function checkQuiz(){let score=0,answered=0;quizzes.forEach((q,i)=>{let chosen=document.querySelector(`input[name="q${i}"]:checked`);if(chosen){answered++;if(Number(chosen.value)===q.a)score++}});if(!answered){document.getElementById("quizResult").textContent=state.language==="en"?"Please answer at least one question.":"لږ تر لږه یوې پوښتنې ته ځواب ورکړه.";return}let earned=score*10;state.points+=earned;save();document.getElementById("quizResult").textContent=`${t("correct")}: ${score} ${t("of")} ${quizzes.length}. +${earned} ${t("points")}.`}
+function toggleLang(){state.language=state.language==="ps"?"en":"ps";document.documentElement.lang=state.language;document.documentElement.dir=state.language==="ps"?"rtl":"ltr";document.getElementById("langBtn").textContent=state.language==="ps"?"English":"پښتو";const ids=["tagline","welcome","intro","pointsLabel","doneLabel","streakLabel","navHome","navCourse","navQuiz","navProgress","startTitle","startText","startBtn","englishTitle","englishDesc","practiceTitle","practiceDesc","saveTitle","saveDesc","courseHeading","courseSub","lessonPrompt","lessonBody","quizHeading","quizIntro","checkBtn","progressHeading","progressSummary","exportBtn","resetBtn","profileHeading","nameLabel","localNote","footerText"];ids.forEach(id=>{let el=document.getElementById(id);if(el&&translations[state.language][id])el.textContent=t(id)});document.getElementById("learnerName").placeholder=t("namePlaceholder");renderStats();renderLessons();if(currentLesson>=0)openLesson(currentLesson);renderQuiz();save()}
+function saveName(){state.name=document.getElementById("learnerName").value.trim();save()}
+function exportProgress(){const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="nexora-progress.json";a.click();URL.revokeObjectURL(url)}
+function resetProgress(){if(confirm(state.language==="en"?"Reset all saved progress?":"ټول خوندي شوی پرمختګ له سره پیل شي؟")){state.completed=[];state.points=0;state.streak=0;state.lastDay="";save();renderLessons();renderStats()}}
+document.getElementById("learnerName").value=state.name||"";renderStats();renderLessons();renderQuiz();
+</script>
+</body></html>
